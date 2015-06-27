@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">QR Escape</string>
+    <string name="action_settings">Propiedades</string>
+    <string name="scan_button">Escanear</string>
+    <string name="scan_error_body">Codigo no válido o escaneado incorrecto</string>
+    <string name="scan_error_title">Error de escaneo!</string>
+    <string name="title_activity_qr_display">Mensaje</string>
+
+    <string-array name="clue_title_array">
+        <item>Distrae al guarda</item>
+        <item>Abre la puerta de la garita</item>
+        <item>Abre la entrada a la base</item>
+        <item>Cruza el pasillo</item>
+    </string-array>
+
+    <string-array name="clue_body_array">
+        <item>Esta oficina es una tapadera, el centro de investigación está justo debajo y sólo es accesible desde la garita de seguridad, donde trabaja el guarda. Yo estoy en la oficina de contabilidad y necesito </item>
+        <item>The door code is on the table. Try to open the curtain.</item>
+        <item>Find the fingerprint of the guard to open the door to the base.</item>
+        <item>Avoid the security cameras or they will trigger the alarm.</item>
+    </string-array>
+    <string name="delete_msgs">Borrar Mensajes</string>
+</resources>

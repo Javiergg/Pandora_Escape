@@ -1,0 +1,42 @@
+<resources>
+    <string name="app_name" translatable="false">QR Escape</string>
+    <string name="title_activity_qr_display">Message</string>
+
+    <string name="scan_button">Scan</string>
+
+    <string name="populate">Populate</string>
+    <string name="delete_msgs">Delete Messages</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="pandora_uri_scheme">pandora</string>
+    <string name="pandora_uri_path_clue">/clue</string>
+    <string name="pandora_uri_query_type">type</string>
+    <string name="pandora_uri_query_code">code</string>
+
+    <string-array name="clue_id_array">
+        <item>One</item>
+        <item>Two</item>
+        <item>Three</item>
+        <item>Four</item>
+        <item>five</item>
+    </string-array>
+
+    <string-array name="clue_title_array">
+        <item>Distract the guard</item>
+        <item>Access the security room</item>
+        <item>Hack the finger print lock</item>
+        <item>Avoid the human sensors in the corridor</item>
+        <item>NFC Scanned</item>
+    </string-array>
+
+    <string-array name="clue_body_array">
+        <item>This commune is a disguise, the research station is right underneath and only accessible via the monitoring room, where the security guard works. I will stand by in the accounting office, and I need you to make an internal phone line connection, so I can phone to draw him away. The connection guide is right here inside of the box, and the goal is to make a connection from the accounting office output (O) to the monitoring room input (1).</item>
+        <item>Password of the monitoring room changes daily. After receiving the new code each month, the guard always writes it on the monthly calendar on the back of the door.</item>
+        <item>Find the fingerprint of the guard to open the door to the base.This hidden door requires guard\'s finger print to unlock. Open my locker, the password is 7484, you will find a finger print collecting device inside along with instructions. There is also a special flash light somewhere in this room, which can reveal finger prints. By the way, this guard always wares gloves inside of the building, it might be somewhat difficult to find any fingerprint traces.</item>
+        <item>These are human detectors, blocking any light beam will trigger the alarm. The off switch should be found on the left wall on the other side. Remember, don\'t get yourself discovered!</item>
+        <item>This message was scanned from an NFC tag.</item>
+    </string-array>
+
+    <string name="scan_error_title">Scan error!</string>
+    <string name="scan_error_body">Code invalid or scanned incorrectly.</string>
+</resources>

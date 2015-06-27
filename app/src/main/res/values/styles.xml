@@ -1,0 +1,9 @@
+<resources>
+    <!-- the theme applied to the application or activity -->
+    <style name="RustyStyle."
+        parent="android:Theme.DeviceDefault.Wallpaper" >
+        <!--parent="android:Theme.DeviceDefault.Light.DarkActionBar"-->
+        <item name="android:background">@drawable/rusty_bg</item>
+        <item name="android:actionBarStyle">@style/PandoraActionBar</item>
+    </style>
+</resources>
