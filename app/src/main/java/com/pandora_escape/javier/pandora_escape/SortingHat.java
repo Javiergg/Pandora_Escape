@@ -72,11 +72,11 @@ public class SortingHat extends Activity {
             Parcelable[] rawMsgs = getIntent().getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
             if (rawMsgs != null) {
 
-                for (int i = 0; i < rawMsgs.length; i++) {
+                for (Parcelable rawMsg : rawMsgs) {
+                    NdefRecord[] records = ((NdefMessage) rawMsg).getRecords();
 
-                    NdefRecord[] records = ((NdefMessage) rawMsgs[i]).getRecords();
-                    for (int j = 0; j < records.length; j++) {
-                        parsePandoraUri(records[j].toUri());
+                    for (NdefRecord record : records) {
+                        parsePandoraUri(record.toUri());
                     }
                 }
             }
