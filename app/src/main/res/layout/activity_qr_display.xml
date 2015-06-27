@@ -11,7 +11,7 @@
     android:background="@drawable/rusty_bg"
     android:backgroundTint="#9fffffff"
     android:backgroundTintMode="src_over"
-    tools:context="com.pandora_escape.javier.qrescape.QR_Display" >
+    tools:context="com.pandora_escape.javier.pandora_escape.QR_Display" >
 
     <TextView
         android:layout_width="fill_parent"

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">QR Escape</string>
+    <string name="app_name" translatable="false">Pandora Escape</string>
     <string name="title_activity_qr_display">Message</string>
 
     <string name="scan_button">Scan</string>
