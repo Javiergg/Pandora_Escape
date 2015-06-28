@@ -81,9 +81,7 @@ public class SortingHat extends Activity {
                 }
             }
         }else{
-            Intent nextIntent = new Intent(this,MainActivity.class);
-
-            startActivity(nextIntent);
+            startActivity(new Intent(this,MainActivity.class));
             finish();
         }
     }
