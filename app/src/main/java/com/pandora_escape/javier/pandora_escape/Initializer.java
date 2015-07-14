@@ -9,8 +9,12 @@ import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.os.Parcelable;
 
+import com.pandora_escape.javier.pandora_escape.message_db.MessagesDBHelper;
+
 
 public class Initializer extends Activity {
+
+    private static MessagesDBHelper sMessagesDBHelper;
 
     public void sendMessage(Message message){
         Intent messageIntent = new Intent(this,QR_Display.class);
@@ -39,6 +43,9 @@ public class Initializer extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        sMessagesDBHelper = MessagesDBHelper.getInstance(this);
+        sMessagesDBHelper.initialize(this,getString(R.string.locale));    // Populate the db
 
         Message.initialize(getApplicationContext());
 

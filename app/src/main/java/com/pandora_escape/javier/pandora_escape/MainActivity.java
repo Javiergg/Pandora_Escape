@@ -12,6 +12,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import com.pandora_escape.javier.pandora_escape.message_db.MessagesDBHelper;
+
 import java.util.ArrayList;
 
 
@@ -33,8 +36,14 @@ public class MainActivity extends Activity {
     private static SharedPreferences discoveredClues;
     private static String DISCOVERED_CLUES = "com.pandora_escape.javier.pandora_escape.DISCOVERED_CLUES";
     private static String DISCOVERED_CLUES_AMOUNT = "D_C_total";
-    private static String DISCOVERED_CLUES_TEMPLATE = "D_C_possition_";
+    private static String DISCOVERED_CLUES_TEMPLATE = "D_C_position_";
 
+    private static String DB_LOCALE = "com.pandora_escape.javier.pandora_escape.DB_LOCALE";
+
+
+    private static MessagesDBHelper sMessagesDBHelper;
+
+    private String mLocale = null;
 
     // Functions
     protected void saveDiscoveredClues(){
@@ -113,7 +122,11 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        sMessagesDBHelper = MessagesDBHelper.getInstance(this);
+        sMessagesDBHelper.initialize(this,getString(R.string.locale));    // Populate the db
+
         discoveredClues = getSharedPreferences(DISCOVERED_CLUES, Context.MODE_PRIVATE);
+        mLocale = discoveredClues.getString(DB_LOCALE,null);
 
         if(savedInstanceState==null||!savedInstanceState.containsKey(MESSAGE_INSTANCE_KEY)) {
             loadDiscoveredClues();
@@ -142,6 +155,7 @@ public class MainActivity extends Activity {
     protected void onDestroy(){
         super.onDestroy();
         saveDiscoveredClues();
+        discoveredClues.edit().putString(DB_LOCALE,mLocale).commit();
     }
 
 
@@ -162,6 +176,9 @@ public class MainActivity extends Activity {
 
         switch (id) {
             case R.id.populate:
+                // Database
+                sMessagesDBHelper.addAllMessages();
+                // Array
                 ArrayList<Message> allMessages = Message.getAllClues();
                 messages.clear();
                 for (int i = 0; i < allMessages.size(); i++) {
@@ -170,6 +187,9 @@ public class MainActivity extends Activity {
                 messageArrayAdapter.notifyDataSetChanged();
                 break;
             case R.id.delete_msgs:
+                // Database
+                sMessagesDBHelper.removeAllMessages();
+                // Array
                 messages.clear();
                 messageArrayAdapter.notifyDataSetChanged();
                 break;
@@ -188,6 +208,8 @@ public class MainActivity extends Activity {
 
             if (resultCode == RESULT_OK) {
                 String contents = data.getStringExtra("SCAN_RESULT");
+
+                sMessagesDBHelper.addDiscoveredMessage(contents);
 
                 Message message = new Message(contents);
 

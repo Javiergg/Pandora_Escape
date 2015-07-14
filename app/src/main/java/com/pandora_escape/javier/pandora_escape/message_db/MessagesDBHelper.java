@@ -28,17 +28,9 @@ public class MessagesDBHelper extends SQLiteOpenHelper {
                 MessagesContract.MessagesAll.COLUMN_TYPE_TITLE + " NOT NULL," +
             MessagesContract.MessagesAll.COLUMN_NAME_BODY +
                 MessagesContract.MessagesAll.COLUMN_TYPE_BODY + "," +
-            MessagesContract.MessagesAll.COLUMN_NAME_BODY +
-                MessagesContract.MessagesAll.COLUMN_TYPE_BODY + "," +
             MessagesContract.MessagesAll.COLUMN_NAME_DISC_AT +
                 MessagesContract.MessagesAll.COLUMN_TYPE_DISC_AT +
             ")";
-    // Code to create discovered
-/*    public static final String SQL_CREATE_ENTRIES_DISCOVERED = "CREATE TABLE " +
-            MessagesContract.MessagesAll.TABLE_NAME + "(" +
-            MessagesContract.MessagesAll.COLUMN_NAME_TITLE + TEXT_TYPE + " NOT NULL," +
-            MessagesContract.MessagesAll.COLUMN_NAME_BODY + TEXT_TYPE +
-            ")";*/
 
 
     // Static variables
@@ -62,7 +54,6 @@ public class MessagesDBHelper extends SQLiteOpenHelper {
         if(sInstance ==null){                              // If helper not created yet
             sInstance = new MessagesDBHelper(context);    // makes a new one
         }
-        sInstance.initialize(context);    // Populate the db
         return sInstance;
     }
 
@@ -114,11 +105,11 @@ public class MessagesDBHelper extends SQLiteOpenHelper {
      *
      * @param context   The context to get the message strings resources from
      */
-    private synchronized void initialize(Context context){
+    public synchronized void initialize(Context context,String locale){
         SQLiteDatabase db = getWritableDatabase();     // Get the database
 
         if(sLocale!=null) { // If the db has been initialized
-            if (sLocale.equals(context.getString(R.string.locale))) {
+            if (sLocale.equals(locale)) {
                             // And the locale matches
                 return;     // no need to initialize
             } else {                                                  // If the locale doesn't match
@@ -159,9 +150,8 @@ public class MessagesDBHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(MessagesContract.COLUMN_NAME_DISC_AT, System.currentTimeMillis());
         // Set the WHERE arguments
-        String whereClause  = "?=\"?\" AND ? IS NOT NULL";
-        String[] whereArgs  = {MessagesContract.COLUMN_NAME_CODE,
-                                code,
+        String whereClause  = "? AND ? IS NOT NULL";
+        String[] whereArgs  = new String[]{MessagesContract.COLUMN_NAME_CODE + " = " + code,
                                 MessagesContract.COLUMN_NAME_DISC_AT};
         // Update the db
         db.update(MessagesContract.MessagesAll.TABLE_NAME,
