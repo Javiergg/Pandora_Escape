@@ -21,4 +21,5 @@
         <item>Avoid the security cameras or they will trigger the alarm.</item>
     </string-array>
     <string name="delete_msgs">Borrar Mensajes</string>
+    <string name="locale">es</string>
 </resources>

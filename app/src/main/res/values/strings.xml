@@ -2,6 +2,8 @@
     <string name="app_name" translatable="false">Pandora Escape</string>
     <string name="title_activity_qr_display">Message</string>
 
+    <string name="locale">en</string>
+
     <string name="scan_button">Scan</string>
 
     <string name="populate">Populate</string>
@@ -41,5 +43,4 @@
     <string name="scan_error_body">Code invalid or scanned incorrectly.</string>
     <string name="title_activity_sorting_hat">SortingHat</string>
 
-    <string name="hello_world">Hello world!</string>
 </resources>
