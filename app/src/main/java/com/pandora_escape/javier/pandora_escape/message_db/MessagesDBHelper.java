@@ -172,7 +172,51 @@ public class MessagesDBHelper extends SQLiteOpenHelper {
         db.close();
     }
 
+    /**
+     * Sets all messages in the table as discovered
+     *
+     */
+    public void addAllMessages(){
 
+        SQLiteDatabase db = getWritableDatabase();
+
+        // Set link new values to columns
+        ContentValues values = new ContentValues();
+        values.put(MessagesContract.COLUMN_NAME_DISC_AT, System.currentTimeMillis());
+        // Update the db
+        db.update(MessagesContract.MessagesAll.TABLE_NAME,
+                values,
+                null,   // Apply to all entries
+                null);
+        // Close the db after you are done
+        db.close();
+    }
+
+    /**
+     * Sets all messages in the table as discovered
+     *
+     */
+    public void removeAllMessages(){
+
+        SQLiteDatabase db = getWritableDatabase();
+
+        // Set link new values to columns
+        ContentValues values = new ContentValues();
+        values.putNull(MessagesContract.COLUMN_NAME_DISC_AT);
+        // Update the db
+        db.update(MessagesContract.MessagesAll.TABLE_NAME,
+                values,
+                null,   // Apply to all rows
+                null);
+        // Close the db after you are done
+        db.close();
+    }
+
+    /**
+     * Provides a cursor with all the messages discovered so far, ordered form oldest to newest
+     *
+     * @return Cursor with messages
+     */
     public Cursor getDiscoveredMessages(){
         // Get the db
         SQLiteDatabase db = getReadableDatabase();
