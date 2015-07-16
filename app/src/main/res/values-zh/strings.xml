@@ -13,6 +13,7 @@
         <item>获取监控室密码</item>
         <item>破解指纹锁</item>
         <item>躲避走廊的人体感应器</item>
+        <item>NFC Scanned</item>
     </string-array>
 
     <string-array name="clue_body_array">
@@ -20,6 +21,7 @@
         <item>监控室的门禁密码每天都不一样，这个保安每个月拿到新的密码都会写在门背后的月历上面。</item>
         <item>这个暗门只能用保安的指纹才能解锁。我的更衣柜密码是7484，里面有一台指纹采集器及使用说明。这个房里还有一把特殊的手电筒，利用它可以看到指纹。对了，这个保安只要在这栋楼里就会戴着手套，所以寻找他的指纹会有一定难度。</item>
         <item>这些是有人体感应功能的报警器，一旦被任意一道光束照到就会触发报警。过道另一端左手边的开关能够将其关闭，切记不要被发现！</item>
+        <item>This message was scanned from an NFC tag.</item>
     </string-array>
     <string name="locale">zh</string>
 </resources>

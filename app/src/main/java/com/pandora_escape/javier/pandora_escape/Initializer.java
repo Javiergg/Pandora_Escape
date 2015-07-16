@@ -3,12 +3,16 @@ package com.pandora_escape.javier.pandora_escape;
 import android.app.Activity;
 import android.app.TaskStackBuilder;
 import android.content.Intent;
+import android.net.Uri;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.annotation.Nullable;
 
+import com.pandora_escape.javier.pandora_escape.message_db.Message;
+import com.pandora_escape.javier.pandora_escape.message_db.MessagesContract;
 import com.pandora_escape.javier.pandora_escape.message_db.MessagesDBHelper;
 
 
@@ -28,8 +32,6 @@ public class Initializer extends Activity {
         } else {
             messageIntent.putExtra(MainActivity.EXTRA_MESSAGE_TITLE, message.getTitle());
             messageIntent.putExtra(MainActivity.EXTRA_MESSAGE_BODY, message.getBody());
-
-            intentToMain.putExtra(MainActivity.EXTRA_ADD_MESSAGE,message.index);
         }
 
         TaskStackBuilder.create(this)
@@ -40,14 +42,28 @@ public class Initializer extends Activity {
     }
 
 
+    /**
+     * Extract code from URI
+     *
+     * @param uri Input URI
+     * @return Code as a String
+     */
+    @Nullable
+    public static String extractCode(Uri uri){
+        try {
+            return uri.getQueryParameter(MessagesContract.COLUMN_NAME_CODE);
+        }catch (Exception e){
+            return null;
+        }
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         sMessagesDBHelper = MessagesDBHelper.getInstance(this);
         sMessagesDBHelper.initialize(this,getString(R.string.locale));    // Populate the db
-
-        Message.initialize(getApplicationContext());
 
         Intent intent = getIntent();
 
@@ -60,13 +76,15 @@ public class Initializer extends Activity {
                     NdefRecord[] records = ((NdefMessage) rawMsg).getRecords();
 
                     for (NdefRecord record : records) {
-                        message = Message.parsePandoraUri(record.toUri());
+                        String code = extractCode(record.toUri());
+                        message = MessagesDBHelper.getMessage(code);
                         if(message!=null){ break; }
                     }
                     if(message!=null){ break; }
                 }
 
                 if(message!=null){
+                    sMessagesDBHelper.addDiscoveredMessage(message.getCode());
                     sendMessage(message);
                 }
             }
@@ -75,6 +93,12 @@ public class Initializer extends Activity {
             startActivity(new Intent(this,MainActivity.class));
             finish();
         }
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        sMessagesDBHelper.close();
     }
 
 }

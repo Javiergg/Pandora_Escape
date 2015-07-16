@@ -12,6 +12,7 @@
         <item>Abre la puerta de la garita</item>
         <item>Abre la entrada a la base</item>
         <item>Cruza el pasillo</item>
+        <item>NFC Escaneado</item>
     </string-array>
 
     <string-array name="clue_body_array">
@@ -19,6 +20,7 @@
         <item>The door code is on the table. Try to open the curtain.</item>
         <item>Find the fingerprint of the guard to open the door to the base.</item>
         <item>Avoid the security cameras or they will trigger the alarm.</item>
+        <item>Este mensaje se escaneó de una tarjeta NFC.</item>
     </string-array>
     <string name="delete_msgs">Borrar Mensajes</string>
     <string name="locale">es</string>

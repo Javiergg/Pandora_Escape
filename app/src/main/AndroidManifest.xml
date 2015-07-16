@@ -21,8 +21,9 @@
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data
-                    android:path="@string/pandora_uri_path_clue"
-                    android:scheme="@string/pandora_uri_scheme" />
+                    android:scheme="@string/pandora_uri_scheme"
+                    android:host="@string/pandora_uri_authority"
+                    android:pathPrefix="@string/pandora_uri_path_messages" />
             </intent-filter>
         </activity>
 

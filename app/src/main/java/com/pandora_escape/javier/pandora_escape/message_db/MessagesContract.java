@@ -7,9 +7,9 @@ import android.provider.BaseColumns;
  *
  * Created by Javier on 11/07/2015.
  */
-public final class MessagesContract {
+public final class MessagesContract implements BaseColumns {
 
-    public static String DATABASE_NAME = "Messages.db";
+    public static String DATABASE_NAME = "MessagesDB";
 
     public static String TYPE_TEXT  = " TEXT";
     public static String TYPE_INT   = " INTEGER";
