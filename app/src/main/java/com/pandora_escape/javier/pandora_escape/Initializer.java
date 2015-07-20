@@ -63,7 +63,7 @@ public class Initializer extends Activity {
         super.onCreate(savedInstanceState);
 
         sMessagesDBHelper = MessagesDBHelper.getInstance(this);
-        sMessagesDBHelper.initialize(this,getString(R.string.locale));    // Populate the db
+        //sMessagesDBHelper.initialize(this,getString(R.string.locale));    // Populate the db
 
         Intent intent = getIntent();
 

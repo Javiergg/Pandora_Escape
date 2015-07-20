@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.XmlResourceParser;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.widget.SimpleCursorAdapter;
 import com.pandora_escape.javier.pandora_escape.message_db.Message;
 import com.pandora_escape.javier.pandora_escape.message_db.MessagesContract;
 import com.pandora_escape.javier.pandora_escape.message_db.MessagesDBHelper;
+import com.pandora_escape.javier.pandora_escape.message_db.ParserXMLToDB;
 
 
 public class MainActivity extends Activity {
@@ -94,7 +96,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         sMessagesDBHelper = MessagesDBHelper.getInstance(this);
-        sMessagesDBHelper.initialize(this,getString(R.string.locale));    // Populate the db
+        //sMessagesDBHelper.initialize(this,getString(R.string.locale));    // Populate the db
         //mCursor = sMessagesDBHelper.getDiscoveredMessages();
 
         discoveredClues = getSharedPreferences(DISCOVERED_CLUES, Context.MODE_PRIVATE);
@@ -102,7 +104,7 @@ public class MainActivity extends Activity {
 
         // Build ListView
         ListView messageList = (ListView) findViewById(R.id.clueListView);
-        //messageArrayAdapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,messages);
+        //messageArrayAdapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,messages_raw);
         mCursor = sMessagesDBHelper.getDiscoveredMessages();
         mMessageCursorAdapter = new SimpleCursorAdapter(this,
                                     android.R.layout.simple_list_item_1,
@@ -111,11 +113,6 @@ public class MainActivity extends Activity {
                                     new int[]{android.R.id.text1},
                                     0);
         messageList.setAdapter(mMessageCursorAdapter);
-
- /*       if(getIntent().hasExtra(EXTRA_ADD_MESSAGE)){
-            Message message = Message.createFromIndex(getIntent().getIntExtra(EXTRA_ADD_MESSAGE,-1));
-            addMessage(message);
-        }*/
 
         messageList.setOnItemClickListener(mMessageClickedHandler);
     }

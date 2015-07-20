@@ -2,12 +2,15 @@
     <string name="app_name" translatable="false">Pandora Escape</string>
     <string name="title_activity_qr_display">Message</string>
 
+    <string name="messages_xml_file">messages.xml</string>
+
     <string name="locale">en</string>
 
     <string name="scan_button">Scan</string>
 
     <string name="populate">Populate</string>
     <string name="delete_msgs">Delete Messages</string>
+    <string name="test_xml">Test XML</string>
     <string name="action_settings">Settings</string>
 
     <string name="pandora_uri_scheme">content</string>

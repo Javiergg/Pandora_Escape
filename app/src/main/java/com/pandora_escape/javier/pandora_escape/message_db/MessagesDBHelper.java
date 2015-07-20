@@ -2,41 +2,57 @@ package com.pandora_escape.javier.pandora_escape.message_db;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.res.XmlResourceParser;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.pandora_escape.javier.pandora_escape.R;
 
+import org.xmlpull.v1.XmlPullParserException;
+
+import java.io.IOException;
+
 /**
- * Helper to handle the messages database
+ * Helper to handle the messages_raw database
  *
  * Created by Javier on 11/07/2015.
  */
 public class MessagesDBHelper extends SQLiteOpenHelper {
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
 
     public static final String DROP_TABLE = "DROP TABLE IF EXISTS ";
 
-    // Create table for all messages
+    // Create table for all messages_raw
     public static final String SQL_CREATE_ENTRIES_ALL = "CREATE TABLE " +
             MessagesContract.MessagesAll.TABLE_NAME + " (" +
-            MessagesContract._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+            MessagesContract._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            MessagesContract.MessagesAll.COLUMN_NAME_LANG +
+                MessagesContract.MessagesAll.COLUMN_TYPE_LANG + " NOT NULL, " +
             MessagesContract.MessagesAll.COLUMN_NAME_CODE +
-                MessagesContract.MessagesAll.COLUMN_TYPE_CODE + " NOT NULL UNIQUE," +
+                MessagesContract.MessagesAll.COLUMN_TYPE_CODE + " NOT NULL, " +
             MessagesContract.MessagesAll.COLUMN_NAME_TITLE +
-                MessagesContract.MessagesAll.COLUMN_TYPE_TITLE + " NOT NULL," +
+                MessagesContract.MessagesAll.COLUMN_TYPE_TITLE + " NOT NULL, " +
             MessagesContract.MessagesAll.COLUMN_NAME_BODY +
-                MessagesContract.MessagesAll.COLUMN_TYPE_BODY + "," +
+                MessagesContract.MessagesAll.COLUMN_TYPE_BODY + ", " +
             MessagesContract.MessagesAll.COLUMN_NAME_DISC_AT +
-                MessagesContract.MessagesAll.COLUMN_TYPE_DISC_AT +
-            ")";
+                MessagesContract.MessagesAll.COLUMN_TYPE_DISC_AT + ", " +
+            "UNIQUE (" + MessagesContract.COLUMN_NAME_LANG + "," +
+                            MessagesContract.COLUMN_NAME_CODE + ") ON CONFLICT REPLACE" +
+            ");";
+
+    // Logging values
+    public static final String TESTING_LOG = "XML_Testing.";
 
 
     // Static variables
 //    private static Context sContext = null;
     private static MessagesDBHelper sInstance = null;
-    private static String sLocale = null;
+    // Only used to initialize the DB
+    private static Context sContext = null;
+    private static SQLiteDatabase sInitializationDB = null;
+    private static boolean sCreating = false;
 
 
     /**
@@ -47,12 +63,11 @@ public class MessagesDBHelper extends SQLiteOpenHelper {
      */
     private MessagesDBHelper(Context context) {
         super(context, MessagesContract.DATABASE_NAME, null, DATABASE_VERSION);
-        sLocale = null;
     }
 
 
     public static synchronized MessagesDBHelper getInstance(Context context){
- //       sContext = context;
+        sContext = context;
         if(sInstance ==null){                              // If helper not created yet
             sInstance = new MessagesDBHelper(context);    // makes a new one
         }
@@ -70,7 +85,27 @@ public class MessagesDBHelper extends SQLiteOpenHelper {
      */
     @Override
     public void onCreate(SQLiteDatabase db) {
+        sCreating = true;
+
         db.execSQL(SQL_CREATE_ENTRIES_ALL);
+
+        // Populate database from XML file
+        sInitializationDB = db;
+        XmlResourceParser xrp = sContext.getResources().getXml(R.xml.messages);
+
+        ParserXMLToDB parserXMLToDB = new ParserXMLToDB(this);
+        try {
+            parserXMLToDB.parseXML(xrp);
+        } catch (XmlPullParserException e) {
+            Log.e(TESTING_LOG,"Problem with XML structure.");
+            e.printStackTrace();
+        } catch (IOException e) {
+            Log.e(TESTING_LOG,"Problem reading XML file.");
+            e.printStackTrace();
+        }
+
+        sInitializationDB = null;
+        sCreating = false;
     }
 
     /**
@@ -101,52 +136,39 @@ public class MessagesDBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    /**
-     * Populate database with original values
-     *
-     * @param context   The context to get the message strings resources from
-     */
-    public synchronized void initialize(Context context,String locale){
-        SQLiteDatabase db = getWritableDatabase();     // Get the database
 
-        // If the locale is the same no need to initialize
-        if(sLocale!=null && sLocale.equals(locale)) { return; }
+    protected void insertMessage(String language, Message message){
+        Log.d(TESTING_LOG, "Trying to insert Message: Lang = " + language +
+                " Code = " + message.getCode() +
+                " Title = " + message.getTitle() +
+                " Body = " + message.getBody() + ".");
 
-        // If the db wasn't initialized or the locales don't match, populate the db
-
-        // Check if the database is empty
-        Cursor c = db.query(MessagesContract.MessagesAll.TABLE_NAME,null,null,null,null,null,null);
-        boolean dbEmpty = !(c.getCount()>0);
-        c.close();
-        //db.delete(MessagesContract.MessagesAll.TABLE_NAME,null,null);
-
-        // Fetch values from application resources
-        String[] MESSAGE_CODES = context.getResources().getStringArray(R.array.clue_id_array);
-        String[] MESSAGE_TITLES = context.getResources().getStringArray(R.array.clue_title_array);
-        String[] MESSAGE_BODIES  = context.getResources().getStringArray(R.array.clue_body_array);
-        // Populate the All Messages table
-        for(int i=0;i<MESSAGE_CODES.length;i++) {
-            // Create new entry from each set of items from resources
-            ContentValues values = new ContentValues();
-            values.put(MessagesContract.MessagesAll.COLUMN_NAME_TITLE,MESSAGE_TITLES[i]);
-            values.put(MessagesContract.MessagesAll.COLUMN_NAME_BODY, MESSAGE_BODIES[i]);
-            if(dbEmpty) {   // If the db is empty,
-                // add the code field
-                values.put(MessagesContract.MessagesAll.COLUMN_NAME_CODE,MESSAGE_CODES[i]);
-                // and insert the new entries
-                db.insert(MessagesContract.MessagesAll.TABLE_NAME, null, values);
-            }else{  // If the db is already populated
-                // Update the values
-                db.update(MessagesContract.MessagesAll.TABLE_NAME,
-                        values,
-                        MessagesContract.MessagesAll.COLUMN_NAME_CODE + " = ? ",
-                        new String[]{MESSAGE_CODES[i]});
+        SQLiteDatabase db;
+        if(sCreating) {
+            if (sInitializationDB == null) {
+                Log.e(TESTING_LOG, "Database was null.");
+                return;
+            } else if (!sInitializationDB.isOpen()) {
+                Log.e(TESTING_LOG, "Database was not open.");
+                return;
+            } else {
+                db = sInitializationDB;
             }
+        }else{
+            db = getWritableDatabase();
         }
 
-        // Update current database locale
-        sLocale = context.getString(R.string.locale);
+        // Insert the message into the database
+        ContentValues values = new ContentValues();
+        values.put(MessagesContract.COLUMN_NAME_LANG,language);
+        values.put(MessagesContract.COLUMN_NAME_CODE,message.getCode());
+        values.put(MessagesContract.COLUMN_NAME_TITLE,message.getTitle());
+        values.put(MessagesContract.COLUMN_NAME_BODY, message.getBody());
+        // and insert the new entries
+        db.insert(MessagesContract.MessagesAll.TABLE_NAME, null, values);
+        Log.d(TESTING_LOG, "Insert successful");
     }
+
 
     /**
      *  When a new message is discovered, the "discovered_at" value of that message entry is
@@ -173,7 +195,7 @@ public class MessagesDBHelper extends SQLiteOpenHelper {
 
 
     /**
-     * Sets all messages in the table as discovered
+     * Sets all messages_raw in the table as discovered
      *
      */
     public void addAllMessages(){
@@ -190,7 +212,7 @@ public class MessagesDBHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * Sets all messages in the table as discovered
+     * Sets all messages_raw in the table as discovered
      *
      */
     public void removeAllMessages(){
@@ -207,26 +229,29 @@ public class MessagesDBHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * Provides a cursor with all the messages discovered so far, ordered form oldest to newest
+     * Provides a cursor with all the messages_raw discovered so far, ordered form oldest to newest
      *
-     * @return Cursor with messages
+     * @return Cursor with messages_raw
      */
     public Cursor getDiscoveredMessages(){
         // Get the db
         SQLiteDatabase db = getReadableDatabase();
-        // Fill the cursor with the Titles and Bodies of the discovered messages
+        // Fill the cursor with the Titles and Bodies of the discovered messages_raw
         String projection[] = new String[]{MessagesContract._ID,
                                 MessagesContract.COLUMN_NAME_TITLE,
                                 MessagesContract.COLUMN_NAME_BODY};
         // Select only entries where discovered_at is not null, i.e. have been discovered
-        String selection        = MessagesContract.COLUMN_NAME_DISC_AT + " IS NOT NULL";
+        // and match the current locale
+        String selection = MessagesContract.COLUMN_NAME_LANG + " = ? AND " +
+                MessagesContract.COLUMN_NAME_DISC_AT + " IS NOT NULL";
+        String selectionArgs[] = new String[]{sContext.getString(R.string.locale)};
         // Sort them from oldest to newest
         String sortOrder = MessagesContract.COLUMN_NAME_DISC_AT + " ASC";
         // Make query with previous parameters
         return db.query(MessagesContract.MessagesAll.TABLE_NAME,
                                     projection,
                                     selection,
-                                    null,
+                                    selectionArgs,
                                     null,
                                     null,
                                     sortOrder);
@@ -250,9 +275,9 @@ public class MessagesDBHelper extends SQLiteOpenHelper {
         String columns[] = new String[]{MessagesContract.COLUMN_NAME_TITLE,
                                         MessagesContract.COLUMN_NAME_BODY};
         // Set the WHERE arguments
-        String whereClause  = MessagesContract.COLUMN_NAME_CODE + " = ?";
-        String[] whereArgs  = new String[]{code};
-        // Update the db
+        String whereClause = MessagesContract.COLUMN_NAME_LANG + " = ? AND " +
+                MessagesContract.COLUMN_NAME_CODE + " = ?";
+        String[] whereArgs = new String[]{sContext.getString(R.string.locale),code};
 
         try (Cursor cursor = db.query(MessagesContract.MessagesAll.TABLE_NAME,
                 columns,
