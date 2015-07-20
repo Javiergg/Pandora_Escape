@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MessageSets>
+    <set language="en">
+        <message code="One">
+            <title>Distract the guard</title>
+            <body>This commune is a disguise, the research station is right underneath and only accessible via the monitoring room, where the security guard works. I will stand by in the accounting office, and I need you to make an internal phone line connection, so I can phone to draw him away. The connection guide is right here inside of the box, and the goal is to make a connection from the accounting office output (O) to the monitoring room input (1)."</body>
+        </message>
+        <message code="Two">
+            <title>Access the security room</title>
+            <body>Password of the monitoring room changes daily. After receiving the new code each month, the guard always writes it on the monthly calendar on the back of the door."</body>
+        </message>
+        <message code="Three">
+            <title>Hack the finger print lock</title>
+            <body>Find the fingerprint of the guard to open the door to the base.This hidden door requires guard's finger print to unlock. Open my locker, the password is 7484, you will find a finger print collecting device inside along with instructions. There is also a special flash light somewhere in this room, which can reveal finger prints. By the way, this guard always wares gloves inside of the building, it might be somewhat difficult to find any fingerprint traces.</body>
+        </message>
+        <message code="Four">
+            <title>Avoid the human sensors in the corridor</title>
+            <body>These are human detectors, blocking any light beam will trigger the alarm. The off switch should be found on the left wall on the other side. Remember, don't get yourself discovered!</body>
+        </message>
+        <message code="five">
+            <title>NFC Scanned</title>
+            <body>This message was scanned from an NFC tag.</body>
+        </message>
+    </set>
+
+    <set language="zh">
+        <message code="One">
+            <title>引开保安</title>
+            <body>这栋公社是一个伪装，秘密研发站就在地下，但只有保安所在的监控室和它相通。我会守在财务室，你们需要帮我连接一条内线，我好打电话把保安引开。电话接线盒里有连线规则，目标是从财务室的out(O)，连到监控室的in(1)。</body>
+        </message>
+        <message code="Two">
+            <title>获取监控室密码</title>
+            <body>监控室的门禁密码每天都不一样，这个保安每个月拿到新的密码都会写在门背后的月历上面。</body>
+        </message>
+        <message code="Three">
+            <title>破解指纹锁</title>
+            <body>这个暗门只能用保安的指纹才能解锁。我的更衣柜密码是7484，里面有一台指纹采集器及使用说明。这个房里还有一把特殊的手电筒，利用它可以看到指纹。对了，这个保安只要在这栋楼里就会戴着手套，所以寻找他的指纹会有一定难度。</body>
+        </message>
+        <message code="Four">
+            <title>躲避走廊的人体感应器</title>
+            <body>这些是有人体感应功能的报警器，一旦被任意一道光束照到就会触发报警。过道另一端左手边的开关能够将其关闭，切记不要被发现！</body>
+        </message>
+        <message code="five">
+            <title>NFC Scanned</title>
+            <body>This message was scanned from an NFC tag.</body>
+        </message>
+    </set>
+
+    <set language="es">
+        <message code="One">
+            <title>Distrae al guarda</title>
+            <body>Esta oficina es una tapadera, el centro de investigación está justo debajo y sólo es accesible desde la garita de seguridad, donde trabaja el guarda. Yo estoy en la oficina de contabilidad y necesito.</body>
+        </message>
+        <message code="Two">
+            <title>Abre la puerta de la garita</title>
+            <body>The door code is on the table. Try to open the curtain.</body>
+        </message>
+        <message code="Three">
+            <title>Abre la entrada a la base</title>
+            <body>Find the fingerprint of the guard to open the door to the base.</body>
+        </message>
+        <message code="Four">
+            <title>Cruza el pasillo</title>
+            <body>Avoid the security cameras or they will trigger the alarm.</body>
+        </message>
+        <message code="five">
+            <title>NFC Escaneado</title>
+            <body>Este mensaje se escaneó de una tarjeta NFC.</body>
+        </message>
+    </set>
+</MessageSets>
+	
