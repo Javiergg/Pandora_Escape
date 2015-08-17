@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    <PreferenceCategory
+        android:key="@string/pref_key_msgs_settings"
+        android:title="@string/pref_messages_cat" >
+        <Preference
+            android:key="@string/pref_key_msgs_populate"
+            android:title="@string/msgs_populate" />
+        <Preference
+            android:key="@string/pref_key_msgs_delete"
+            android:title="@string/msgs_delete" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:key="@string/pref_key_admin_settings"
+        android:title="@string/pref_admin_cat" >
+        <CheckBoxPreference
+            android:key="@string/pref_key_admin_mode"
+            android:title="@string/pref_admin_mode"
+            android:summary="@string/pref_admin_mode_summ"
+            android:defaultValue="false"/>
+        </PreferenceCategory>
+</PreferenceScreen>

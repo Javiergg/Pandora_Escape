@@ -1,27 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">QR Escape</string>
-    <string name="action_settings">Propiedades</string>
+    <string name="action_settings">Ajustes</string>
     <string name="scan_button">Escanear</string>
     <string name="scan_error_body">Codigo no válido o escaneado incorrecto</string>
     <string name="scan_error_title">Error de escaneo!</string>
     <string name="title_activity_qr_display">Mensaje</string>
 
-    <string-array name="clue_title_array">
-        <item>Distrae al guarda</item>
-        <item>Abre la puerta de la garita</item>
-        <item>Abre la entrada a la base</item>
-        <item>Cruza el pasillo</item>
-        <item>NFC Escaneado</item>
-    </string-array>
-
-    <string-array name="clue_body_array">
-        <item>Esta oficina es una tapadera, el centro de investigación está justo debajo y sólo es accesible desde la garita de seguridad, donde trabaja el guarda. Yo estoy en la oficina de contabilidad y necesito </item>
-        <item>The door code is on the table. Try to open the curtain.</item>
-        <item>Find the fingerprint of the guard to open the door to the base.</item>
-        <item>Avoid the security cameras or they will trigger the alarm.</item>
-        <item>Este mensaje se escaneó de una tarjeta NFC.</item>
-    </string-array>
-    <string name="delete_msgs">Borrar Mensajes</string>
-    <string name="locale">es</string>
+    <string name="msgs_delete">Borrar Mensajes</string>
+    <string name="language">es</string>
+    <string name="msgs_populate">Poblar</string>
+    <string name="title_activity_settings">Ajustes</string>
+    <string name="pref_sysdef_lang">Usar idioma del sistema </string>
+    <string name="pref_choose_lang_title">Elegir idioma</string>
+    <string name="pref_choose_lang">Elegir idioma de la aplicación</string>
+    <string name="pref_cat_lang">Idiomas</string>
 </resources>

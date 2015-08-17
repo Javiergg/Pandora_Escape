@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Intent strings -->
+    <string name="pandora_uri_scheme" translatable="false">content</string>
+    <string name="pandora_uri_authority" translatable="false">pandora.pandora-escape.com</string>
+    <string name="pandora_uri_path_msgs" translatable="false">/messages</string>
+    <string name="pandora_uri_query_code" translatable="false">code</string>
+    <string name="pandora_uri_path_settings" translatable="false">/settings</string>
+    <string name="pandora_uri_query_level" translatable="false">level</string>
+
+    <!-- Preference Keys -->
+    <string name="pref_key" translatable="false">pref_key</string>
+    <string name="pref_key_lang_settings" translatable="false">pref_key_lang_settings</string>
+    <string name="pref_key_lang_sysdef" translatable="false">pref_key_lang_sysdef</string>
+    <string name="pref_key_lang_choose" translatable="false">pref_key_lang_choose</string>
+    <string name="pref_key_msgs_settings" translatable="false">pref_key_msgs_settings</string>
+    <string name="pref_key_msgs_populate" translatable="false">pref_key_msgs_populate</string>
+    <string name="pref_key_msgs_delete" translatable="false">pref_key_msgs_delete</string>
+    <string name="pref_key_admin_settings" translatable="false">pref_key_admin_settings</string>
+    <string name="pref_key_admin_mode" translatable="false">pref_key_admin_mode</string>
+
+    <!-- String arrays -->
+    <string-array name="pref_lang_entries">
+        <item>English</item>
+        <item>Español</item>
+        <item>中文</item>
+    </string-array>
+
+    <string-array name="pref_lang_values">
+        <item>en</item>
+        <item>es</item>
+        <item>zh</item>
+    </string-array>
+
+</resources>

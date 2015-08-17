@@ -5,8 +5,8 @@ android {
     buildToolsVersion "22.0.1"
     defaultConfig {
         applicationId "com.pandora_escape.javier.pandora_escape"
-        minSdkVersion 21
-        targetSdkVersion 21
+        minSdkVersion 19
+        targetSdkVersion 22
         versionCode 1
         versionName "1.0"
     }

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    <PreferenceCategory
+        android:title="@string/pref_cat_lang"
+        android:key="@string/pref_key_lang_settings" >
+        <CheckBoxPreference
+            android:key="@string/pref_key_lang_sysdef"
+            android:disableDependentsState="true"
+            android:title="@string/pref_sysdef_lang"
+            android:persistent="true"
+            android:defaultValue="true" />
+        <ListPreference
+            android:key="@string/pref_key_lang_choose"
+            android:dependency="@string/pref_key_lang_sysdef"
+            android:title="@string/pref_choose_lang"
+            android:dialogTitle="@string/pref_choose_lang_title"
+            android:entries="@array/pref_lang_entries"
+            android:entryValues="@array/pref_lang_values"
+            android:persistent="true"
+            android:defaultValue="@string/language" />
+    </PreferenceCategory>
+</PreferenceScreen>

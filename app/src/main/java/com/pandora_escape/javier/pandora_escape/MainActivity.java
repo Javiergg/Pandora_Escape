@@ -1,12 +1,13 @@
 package com.pandora_escape.javier.pandora_escape;
 
+import android.annotation.TargetApi;
+import android.app.ActionBar;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.XmlResourceParser;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,7 +19,6 @@ import android.widget.SimpleCursorAdapter;
 import com.pandora_escape.javier.pandora_escape.message_db.Message;
 import com.pandora_escape.javier.pandora_escape.message_db.MessagesContract;
 import com.pandora_escape.javier.pandora_escape.message_db.MessagesDBHelper;
-import com.pandora_escape.javier.pandora_escape.message_db.ParserXMLToDB;
 
 
 public class MainActivity extends Activity {
@@ -29,17 +29,10 @@ public class MainActivity extends Activity {
     public static final String QR_SCAN_ADDRESS = "com.google.zxing.client.android.SCAN";
     public static final int QR_SCAN_REQUEST_CODE = 1;
 
-    private static SharedPreferences discoveredClues;
-    private static final String DISCOVERED_CLUES = "com.pandora_escape.javier.pandora_escape.DISCOVERED_CLUES";
-
-    private static String DB_LOCALE = "com.pandora_escape.javier.pandora_escape.DB_LOCALE";
-
     private Cursor mCursor;
     private static SimpleCursorAdapter mMessageCursorAdapter;
 
     private static MessagesDBHelper sMessagesDBHelper;
-
-    private String mLocale = null;
 
     // Functions
     public void scanQR(View view){
@@ -90,17 +83,25 @@ public class MainActivity extends Activity {
 
 
     // Activity Lifecycle
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        sMessagesDBHelper = MessagesDBHelper.getInstance(this);
-        //sMessagesDBHelper.initialize(this,getString(R.string.locale));    // Populate the db
-        //mCursor = sMessagesDBHelper.getDiscoveredMessages();
+        SharedPreferences sharedPreferences = getSharedPreferences(
+                        "preferences_admin",MODE_PRIVATE);
+        boolean adminMode = sharedPreferences.getBoolean(
+                                getString(R.string.pref_key_admin_mode), false);
+        if(adminMode){
+            ActionBar actionBar = getActionBar();
+            if(actionBar!=null) {
+                actionBar.setBackgroundDrawable(getDrawable(android.R.color.holo_blue_dark));
+                actionBar.setTitle(getString(R.string.app_name) + " - Admin");
+            }
+        }
 
-        discoveredClues = getSharedPreferences(DISCOVERED_CLUES, Context.MODE_PRIVATE);
-        mLocale = discoveredClues.getString(DB_LOCALE,null);
+        sMessagesDBHelper = MessagesDBHelper.getInstance(this);
 
         // Build ListView
         ListView messageList = (ListView) findViewById(R.id.clueListView);
@@ -121,7 +122,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onDestroy(){
         super.onDestroy();
-        discoveredClues.edit().putString(DB_LOCALE,mLocale).apply();
+        // Liberate resources
         mCursor.close();
         sMessagesDBHelper.close();
     }
@@ -164,6 +165,8 @@ public class MainActivity extends Activity {
                 mCursor = cursor;
                 break;
             case R.id.action_settings:
+                Intent intent = new Intent(this,SettingsActivity.class);
+                startActivity(intent);
                 break;
         }
 

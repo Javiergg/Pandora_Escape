@@ -244,7 +244,7 @@ public class MessagesDBHelper extends SQLiteOpenHelper {
         // and match the current locale
         String selection = MessagesContract.COLUMN_NAME_LANG + " = ? AND " +
                 MessagesContract.COLUMN_NAME_DISC_AT + " IS NOT NULL";
-        String selectionArgs[] = new String[]{sContext.getString(R.string.locale)};
+        String selectionArgs[] = new String[]{sContext.getString(R.string.language)};
         // Sort them from oldest to newest
         String sortOrder = MessagesContract.COLUMN_NAME_DISC_AT + " ASC";
         // Make query with previous parameters
@@ -277,7 +277,7 @@ public class MessagesDBHelper extends SQLiteOpenHelper {
         // Set the WHERE arguments
         String whereClause = MessagesContract.COLUMN_NAME_LANG + " = ? AND " +
                 MessagesContract.COLUMN_NAME_CODE + " = ?";
-        String[] whereArgs = new String[]{sContext.getString(R.string.locale),code};
+        String[] whereArgs = new String[]{sContext.getString(R.string.language),code};
 
         try (Cursor cursor = db.query(MessagesContract.MessagesAll.TABLE_NAME,
                 columns,

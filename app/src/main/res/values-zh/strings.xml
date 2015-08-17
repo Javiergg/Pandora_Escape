@@ -1,27 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">QR Escape</string>
     <string name="action_settings">设置</string>
     <string name="scan_button">扫描</string>
     <string name="scan_error_body">密码或扫描错误</string>
     <string name="scan_error_title">扫描错误</string>
-    <string name="delete_msgs">删除邮件</string>
+    <string name="msgs_delete">删除邮件</string>
     <string name="title_activity_qr_display">信息</string>
 
-    <string-array name="clue_title_array">
-        <item>引开保安</item>
-        <item>获取监控室密码</item>
-        <item>破解指纹锁</item>
-        <item>躲避走廊的人体感应器</item>
-        <item>NFC Scanned</item>
-    </string-array>
-
-    <string-array name="clue_body_array">
-        <item>这栋公社是一个伪装，秘密研发站就在地下，但只有保安所在的监控室和它相通。我会守在财务室，你们需要帮我连接一条内线，我好打电话把保安引开。电话接线盒里有连线规则，目标是从财务室的out(O)，连到监控室的in(1)。</item>
-        <item>监控室的门禁密码每天都不一样，这个保安每个月拿到新的密码都会写在门背后的月历上面。</item>
-        <item>这个暗门只能用保安的指纹才能解锁。我的更衣柜密码是7484，里面有一台指纹采集器及使用说明。这个房里还有一把特殊的手电筒，利用它可以看到指纹。对了，这个保安只要在这栋楼里就会戴着手套，所以寻找他的指纹会有一定难度。</item>
-        <item>这些是有人体感应功能的报警器，一旦被任意一道光束照到就会触发报警。过道另一端左手边的开关能够将其关闭，切记不要被发现！</item>
-        <item>This message was scanned from an NFC tag.</item>
-    </string-array>
-    <string name="locale">zh</string>
+    <string name="language">zh</string>
+    <string name="msgs_populate">填充</string>
 </resources>

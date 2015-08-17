@@ -9,7 +9,6 @@
         android:icon="@mipmap/hammer_sickle"
         android:label="@string/app_name"
         android:theme="@style/PandoraTheme" >
-
         <activity
             android:name=".Initializer"
             android:label="@string/app_name" >
@@ -21,9 +20,17 @@
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data
-                    android:scheme="@string/pandora_uri_scheme"
                     android:host="@string/pandora_uri_authority"
-                    android:pathPrefix="@string/pandora_uri_path_messages" />
+                    android:pathPrefix="@string/pandora_uri_path_msgs"
+                    android:scheme="@string/pandora_uri_scheme" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data
+                    android:host="@string/pandora_uri_authority"
+                    android:pathPrefix="@string/pandora_uri_path_settings"
+                    android:scheme="@string/pandora_uri_scheme" />
             </intent-filter>
         </activity>
 
@@ -42,6 +49,14 @@
                 android:value=".MainActivity" />
         </activity>
 
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.pandora_escape.javier.pandora_escape.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
