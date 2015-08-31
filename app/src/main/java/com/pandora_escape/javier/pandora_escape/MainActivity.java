@@ -1,10 +1,7 @@
 package com.pandora_escape.javier.pandora_escape;
 
 import android.annotation.TargetApi;
-import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
@@ -21,7 +18,7 @@ import com.pandora_escape.javier.pandora_escape.message_db.MessagesContract;
 import com.pandora_escape.javier.pandora_escape.message_db.MessagesDBHelper;
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends AdminActivity {
 
     public static final String EXTRA_MESSAGE_TITLE = "com.pandora_escape.javier.pandora_escape.MESSAGE_TITLE";
     public static final String EXTRA_MESSAGE_BODY = "com.pandora_escape.javier.pandora_escape.MESSAGE_BODY";
@@ -51,6 +48,8 @@ public class MainActivity extends Activity {
     }
 
     public void sendMessage(Message message){
+
+        findViewById(R.id.clueListView);
 
         Intent MessageIntent = new Intent(this,QR_Display.class);
 
@@ -89,23 +88,10 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        SharedPreferences sharedPreferences = getSharedPreferences(
-                        "preferences_admin",MODE_PRIVATE);
-        boolean adminMode = sharedPreferences.getBoolean(
-                                getString(R.string.pref_key_admin_mode), false);
-        if(adminMode){
-            ActionBar actionBar = getActionBar();
-            if(actionBar!=null) {
-                actionBar.setBackgroundDrawable(getDrawable(android.R.color.holo_blue_dark));
-                actionBar.setTitle(getString(R.string.app_name) + " - Admin");
-            }
-        }
-
         sMessagesDBHelper = MessagesDBHelper.getInstance(this);
 
         // Build ListView
         ListView messageList = (ListView) findViewById(R.id.clueListView);
-        //messageArrayAdapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,messages_raw);
         mCursor = sMessagesDBHelper.getDiscoveredMessages();
         mMessageCursorAdapter = new SimpleCursorAdapter(this,
                                     android.R.layout.simple_list_item_1,

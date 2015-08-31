@@ -1,32 +1,28 @@
 package com.pandora_escape.javier.pandora_escape;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 
 
-public class QR_Display extends Activity {
+public class QR_Display extends AdminActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_qr_display);
 
-        View view = getLayoutInflater().inflate(R.layout.activity_qr_display, null);
+        // Locate the Title and Body views
+        TextView titleView = (TextView) findViewById(R.id.titleTextView);
+        TextView bodyView = (TextView) findViewById(R.id.bodyTextView);
 
-        TextView titleView = (TextView) view.findViewById(R.id.titleTextView);
-        TextView bodyView = (TextView) view.findViewById(R.id.bodyTextView);
-
+        // Update their content to the values from the intent
         String title = getIntent().getStringExtra(MainActivity.EXTRA_MESSAGE_TITLE);
         String body = getIntent().getStringExtra(MainActivity.EXTRA_MESSAGE_BODY);
 
         titleView.setText(title);
         bodyView.setText(body);
-
-        // Set the text view as the activity layout
-        setContentView(view);
     }
 
 

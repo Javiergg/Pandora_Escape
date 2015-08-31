@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- the theme applied to the application or activity -->
+    <style name="PandoraTheme"
+        parent="android:Theme.DeviceDefault.Light.DarkActionBar">
+        <item name="android:actionBarStyle">@style/PandoraActionBar</item>
+    </style>
+
+    <style name="PandoraAdminTheme"
+        parent="android:Theme.DeviceDefault.Light.DarkActionBar">
+        <item name="android:actionBarStyle">@style/PandoraAdminActionBar</item>
+    </style>
+
+    <!-- ActionBar styles -->
+    <style name="PandoraActionBar"
+        parent="android:Widget.DeviceDefault.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">@android:color/holo_red_dark</item>
+        <item name="android:icon">@android:color/transparent</item>
+    </style>
+
+    <style name="PandoraAdminActionBar"
+        parent="android:Widget.DeviceDefault.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">@android:color/holo_blue_dark</item>
+        <item name="android:icon">@android:color/transparent</item>
+    </style>
+
+</resources>

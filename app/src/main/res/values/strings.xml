@@ -3,14 +3,21 @@
     <string name="title_activity_qr_display">Message</string>
 
     <!-- Preference strings -->
+    <string name="file_pref_admin">preferences_admin</string>
     <string name="pref_cat_lang">Languages</string>
     <string name="pref_sysdef_lang">Use system default language</string>
     <string name="pref_choose_lang">Select application language</string>
     <string name="pref_choose_lang_title">Choose language</string>
     <string name="pref_messages_cat">Discovered messages</string>
     <string name="pref_admin_cat">Admin settings</string>
-    <string name="pref_admin_mode">Admin mode</string>
-    <string name="pref_admin_mode_summ">Disable this option to return to user mode</string>
+    <string name="pref_admin_mode_on">Admin Mode</string>
+    <string name="pref_admin_mode_summ_on">Switch off to go back to user mode</string>
+    <string name="pref_admin_mode_summ_off">Exit setting to return to user mode</string>
+    <string name="pref_admin_mode_timer_title">"Time left in Admin Mode "</string>
+    <string name="pref_admin_mode_timer_summ">"Click to restart counter"</string>
+
+    <!-- Admin mode -->
+    <string name="admin_mode_title_suffix">" - Admin"</string>
 
 
     <string name="language">en</string>

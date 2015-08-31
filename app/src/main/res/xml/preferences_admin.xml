@@ -13,10 +13,16 @@
     <PreferenceCategory
         android:key="@string/pref_key_admin_settings"
         android:title="@string/pref_admin_cat" >
-        <CheckBoxPreference
+        <SwitchPreference
             android:key="@string/pref_key_admin_mode"
-            android:title="@string/pref_admin_mode"
-            android:summary="@string/pref_admin_mode_summ"
+            android:title="@string/pref_admin_mode_on"
+            android:summaryOn="@string/pref_admin_mode_summ_on"
+            android:summaryOff="@string/pref_admin_mode_summ_off"
             android:defaultValue="false"/>
+        <Preference
+            android:key="@string/pref_key_admin_mode_timer"
+            android:dependency="@string/pref_key_admin_mode"
+            android:title="@string/pref_admin_mode_timer_title"
+            android:summary="@string/pref_admin_mode_timer_summ"/>
         </PreferenceCategory>
 </PreferenceScreen>

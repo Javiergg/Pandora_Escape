@@ -3,13 +3,19 @@
     <!-- the theme applied to the application or activity -->
     <style name="PandoraTheme"
         parent="android:Theme.DeviceDefault.Light.DarkActionBar">
-        <item name="android:colorPrimary">@android:color/holo_red_dark</item>
         <item name="android:colorPrimaryDark">@android:color/holo_red_dark</item>
+        <item name="android:colorPrimary">@android:color/holo_red_dark</item>
         <item name="android:actionBarStyle">@style/PandoraActionBar</item>
+    </style>
+
+    <style name="PandoraAdminTheme"
+        parent="PandoraTheme">
+        <item name="android:colorPrimary">@android:color/holo_blue_dark</item>
     </style>
 
     <!-- ActionBar styles -->
     <style name="PandoraActionBar"
         parent="android:Widget.DeviceDefault.Light.ActionBar.Solid">
     </style>
+
 </resources>

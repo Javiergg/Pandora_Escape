@@ -19,6 +19,7 @@
     <string name="pref_key_msgs_delete" translatable="false">pref_key_msgs_delete</string>
     <string name="pref_key_admin_settings" translatable="false">pref_key_admin_settings</string>
     <string name="pref_key_admin_mode" translatable="false">pref_key_admin_mode</string>
+    <string name="pref_key_admin_mode_timer" translatable="false">pref_key_admin_mode_timer</string>
 
     <!-- String arrays -->
     <string-array name="pref_lang_entries">

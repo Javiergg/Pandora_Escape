@@ -83,11 +83,22 @@ public class Initializer extends Activity {
 
 
 
-    private void startSettings(String level){
+    private void startSettingsInAdminMode(String level){
+        // If the parsed value is Admin
+        if(SettingsActivity.ADMIN_LEVEL.equals(level)) {
+            // Set the admin mode settings option to true
+            SharedPreferences sharedPreferences =
+                    PreferenceManager.getDefaultSharedPreferences(this);
+            if (sharedPreferences != null) {
+                sharedPreferences.edit().putBoolean(getString(R.string.pref_key_admin_mode), true)
+                        .apply();
+            }
+            // Start the admin mode timeout
+            AdminActivity.adminModeTimerStart();
+        }
+
         Intent settingsIntent = new Intent(this,SettingsActivity.class);
         Intent intentToMain = new Intent(this,MainActivity.class);
-
-        settingsIntent.putExtra(SettingsActivity.EXTRA_SETTINGS_LEVEL,level);
 
         TaskStackBuilder.create(this)
                 .addNextIntentWithParentStack(intentToMain)
@@ -102,6 +113,7 @@ public class Initializer extends Activity {
         super.onCreate(savedInstanceState);
         // Set preference values to default. Since false is used it only is set once.
         PreferenceManager.setDefaultValues(this,R.xml.preferences,false);
+        PreferenceManager.setDefaultValues(this,R.xml.preferences_admin,false);
 
         sMessagesDBHelper = MessagesDBHelper.getInstance(this);    // Populate the db
         //sMessagesDBHelper.initialize(this,getString(R.string.locale));
@@ -147,7 +159,7 @@ public class Initializer extends Activity {
                     sMessagesDBHelper.addDiscoveredMessage(message.getCode());
                     sendMessage(message);
                 }else if(settingsLevel!=null){
-                    startSettings(settingsLevel);
+                    startSettingsInAdminMode(settingsLevel);
                 }else{
                     startActivity(new Intent(this, MainActivity.class));
                     finish();

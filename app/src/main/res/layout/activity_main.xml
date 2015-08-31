@@ -16,7 +16,9 @@
         android:layout_height="fill_parent"
         android:id="@+id/clueListView"
         android:layout_weight="1"
-        android:background="#9fffffff" />
+        android:background="#9fffffff"
+        android:transitionGroup="false"
+        android:visibility="visible" />
 
     <Button
         android:layout_width="fill_parent"
