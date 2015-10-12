@@ -8,10 +8,12 @@ import android.net.Uri;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.widget.Toast;
 
 import com.pandora_escape.javier.pandora_escape.message_db.Message;
 import com.pandora_escape.javier.pandora_escape.message_db.MessagesContract;
@@ -96,6 +98,10 @@ public class Initializer extends Activity {
             // Start the admin mode timeout
             AdminActivity.adminModeTimerStart();
         }
+
+        Toast toast = Toast.makeText(this,R.string.admin_mode_toast,Toast.LENGTH_LONG);
+        toast.show();
+
 
         Intent settingsIntent = new Intent(this,SettingsActivity.class);
         Intent intentToMain = new Intent(this,MainActivity.class);

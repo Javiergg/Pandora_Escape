@@ -18,6 +18,7 @@
 
     <!-- Admin mode -->
     <string name="admin_mode_title_suffix">" - Admin"</string>
+    <string name="admin_mode_toast">Admin Mode activated</string>
 
 
     <string name="language">en</string>

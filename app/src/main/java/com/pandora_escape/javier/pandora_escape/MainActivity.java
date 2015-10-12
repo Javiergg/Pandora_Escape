@@ -3,6 +3,7 @@ package com.pandora_escape.javier.pandora_escape;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
@@ -31,8 +33,17 @@ public class MainActivity extends AdminActivity {
 
     private static MessagesDBHelper sMessagesDBHelper;
 
+    private ListView mMessageListView;
+    private ImageView mLoadingImageView;
+    private AnimationDrawable mSpinnerAnimation;
+
+
     // Functions
+
     public void scanQR(View view){
+        mLoadingImageView.setVisibility(View.VISIBLE);
+        mSpinnerAnimation.start();
+
         try {
             Intent intent = new Intent(QR_SCAN_ADDRESS);
             intent.putExtra("SCAN_MODE", "QR_CODE_MODE"); // "PRODUCT_MODE for bar codes
@@ -47,10 +58,9 @@ public class MainActivity extends AdminActivity {
         }
     }
 
+
+
     public void sendMessage(Message message){
-
-        findViewById(R.id.clueListView);
-
         Intent MessageIntent = new Intent(this,QR_Display.class);
 
         if(message==null || message.getTitle()==null){
@@ -91,19 +101,33 @@ public class MainActivity extends AdminActivity {
         sMessagesDBHelper = MessagesDBHelper.getInstance(this);
 
         // Build ListView
-        ListView messageList = (ListView) findViewById(R.id.clueListView);
+        mMessageListView = (ListView) findViewById(R.id.clueListView);
         mCursor = sMessagesDBHelper.getDiscoveredMessages();
         mMessageCursorAdapter = new SimpleCursorAdapter(this,
                                     android.R.layout.simple_list_item_1,
                                     mCursor,
                                     new String[]{MessagesContract.COLUMN_NAME_TITLE},
                                     new int[]{android.R.id.text1},
-                                    0);
-        messageList.setAdapter(mMessageCursorAdapter);
+                0);
+        mMessageListView.setAdapter(mMessageCursorAdapter);
 
-        messageList.setOnItemClickListener(mMessageClickedHandler);
+        mMessageListView.setOnItemClickListener(mMessageClickedHandler);
+
+        mLoadingImageView = (ImageView) findViewById(R.id.imageView);
+        mLoadingImageView.setBackgroundResource(R.drawable.spinner_animation);
+        //mLoadingImageView.setBackgroundResource(android.R.drawable.ic_menu_camera);
+        mSpinnerAnimation = (AnimationDrawable)mLoadingImageView.getBackground();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        mLoadingImageView.setVisibility(View.GONE);
+
+        mMessageListView.setAlpha(0);
+        mMessageListView.animate().alpha(1).setDuration(800).start();
+    }
 
     @Override
     protected void onDestroy(){

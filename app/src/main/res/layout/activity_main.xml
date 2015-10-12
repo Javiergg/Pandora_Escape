@@ -1,3 +1,4 @@
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_bg_layout"
@@ -11,14 +12,29 @@
     android:background="@drawable/rusty_bg"
     tools:context=".MainActivity">
 
-    <ListView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/clueListView"
-        android:layout_weight="1"
-        android:background="#9fffffff"
-        android:transitionGroup="false"
-        android:visibility="visible" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1" >
+        <ListView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/clueListView"
+            android:background="#9fffffff"
+            android:transitionGroup="false"
+            android:visibility="visible"
+            android:layout_alignParentBottom="true" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:visibility="gone"
+            android:contentDescription="Spinner animation" />
+
+    </RelativeLayout>
 
     <Button
         android:layout_width="fill_parent"

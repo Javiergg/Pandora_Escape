@@ -1,16 +1,14 @@
 package com.pandora_escape.javier.pandora_escape;
 
+import com.pandora_escape.javier.pandora_escape.message_db.MessagesDBHelper;
+
 import android.content.SharedPreferences;
 import android.os.CountDownTimer;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.os.Bundle;
-import android.preference.SwitchPreference;
 import android.util.Log;
-
-import com.pandora_escape.javier.pandora_escape.message_db.MessagesDBHelper;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -22,13 +20,27 @@ import java.util.Locale;
 public class SettingsFragment extends PreferenceFragment
         implements SharedPreferences.OnSharedPreferenceChangeListener {
 
+
+    // Interfaces
+
+    public interface OnAdminModeActionListener {
+        void onAdminModeExtend();
+        void onAdminModeStop();
+    }
+
     private static final String LOG_TAG = "SettingsFragment";
 
-    private CountDownTimer mAdminModeTicker;
+    private OnAdminModeActionListener mAdminModeActionListener;
+    private CountDownTimer mAdminModeTimer;
+    private Preference mTimerPreference;
 
+
+    // Constructor
 
     public SettingsFragment() {}
 
+
+    // Listeners
 
     Preference.OnPreferenceClickListener populateListener = new Preference.OnPreferenceClickListener() {
         @Override
@@ -51,8 +63,7 @@ public class SettingsFragment extends PreferenceFragment
     Preference.OnPreferenceClickListener adminModeClickListener = new Preference.OnPreferenceClickListener() {
         @Override
         public boolean onPreferenceClick(Preference preference) {
-            AdminActivity.adminModeTimerStart();
-            adminTickerStart(AdminActivity.getRemainingAdminModeTime());
+            adminModeTickerStart();
             return true;
         }
     };
@@ -64,17 +75,19 @@ public class SettingsFragment extends PreferenceFragment
             Log.d(LOG_TAG,"Listener newValue is " + adminMode);
 
             if(adminMode){
-                AdminActivity.adminModeTimerStart();
-                adminTickerStart(AdminActivity.getRemainingAdminModeTime());
+                mAdminModeActionListener.onAdminModeExtend();
+                adminModeTickerStart();
             } else {
-                AdminActivity.adminModeTimerStop();
-                adminTickerStop();
+                mAdminModeActionListener.onAdminModeStop();
+                adminModeTickerStop();
             }
 
             return true;
         }
     };
 
+
+    // Dynamic functions
 
     private void updateChosenLanguageSummary(){
         ListPreference preference = (ListPreference) findPreference(
@@ -83,60 +96,61 @@ public class SettingsFragment extends PreferenceFragment
     }
 
 
-    private void adminTickerStart(long timeLeft){
-
-        if(AdminActivity.isAdmin()){
-            if(mAdminModeTicker!=null){
-                mAdminModeTicker.cancel();
+    private void adminModeTickerStart(){
+        long tickerTimeout = AdminActivity.getRemainingAdminModeTime();
+        tickerTimeout = (tickerTimeout / 1000) * 1000;
+        mAdminModeTimer = new CountDownTimer(tickerTimeout,1000) {
+            @Override
+            public void onTick(long l) {
+                updateTimerDisplay();
             }
 
-            mAdminModeTicker = new CountDownTimer(timeLeft,1000) {
-                @Override
-                public void onTick(long millisUntilFinished) {
-                    updateTimerDisplay(millisUntilFinished);
-                }
+            @Override
+            public void onFinish() {
+                updateTimerDisplay();
+            }
+        }.start();
+    }
 
-                @Override
-                public void onFinish() {
-                    updateTimerDisplay(0);
-                    SwitchPreference switchPreference = (SwitchPreference) getPreferenceManager()
-                            .findPreference(getString(R.string.pref_key_admin_mode));
-                    switchPreference.setChecked(false);
-                }
-            }.start();
+    private void adminModeTickerStop(){
+        if(mAdminModeTimer!=null) {
+            mAdminModeTimer.cancel();
         }
-
-        updateTimerDisplay(timeLeft);
+        updateTimerDisplay();
     }
 
 
-    private void adminTickerStop(){
-        if(mAdminModeTicker!=null){
-            mAdminModeTicker.cancel();
-        }
-
-        updateTimerDisplay(0);
-    }
-
-
-    private void updateTimerDisplay(long timeLeft){
+    public void updateTimerDisplay(){
         String formattedTime = "00:00";
+
+        long timeLeft = AdminActivity.getRemainingAdminModeTime();
 
         if(timeLeft>0) {
             formattedTime = new SimpleDateFormat("mm':'ss",Locale.getDefault())
                                 .format(new Date(timeLeft));
         }
 
-        Preference timer = findPreference(getString(R.string.pref_key_admin_mode_timer));
-        if(timer!=null) {
-            timer.setTitle(getString(R.string.pref_admin_mode_timer_title) + formattedTime);
+        if(mTimerPreference!=null) {
+            mTimerPreference.setTitle(getString(R.string.pref_admin_mode_timer_title) + formattedTime);
         }
     }
 
 
+    // Lifecycle callbacks
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // This makes sure that the container activity has implemented
+        // the callback interface. If not, it throws an exception
+        try {
+            mAdminModeActionListener = (OnAdminModeActionListener) getActivity();
+        } catch (ClassCastException e) {
+            throw new ClassCastException(getActivity().toString()
+                    + " must implement OnAdminModeActionListener");
+        }
+
 
         // Load the preferences from an XML resource
         addPreferencesFromResource(R.xml.preferences);
@@ -146,7 +160,6 @@ public class SettingsFragment extends PreferenceFragment
         defaultLangPref.setSummary(Locale.getDefault().getDisplayLanguage());
 
         // If the admin mode is specified as arguments, update the preference value
-        Log.d(LOG_TAG, "Admin time left: " + (AdminActivity.getRemainingAdminModeTime()/1000));
         boolean isAdmin = AdminActivity.isAdmin();
 
         // If admin level is active, activate additional message preferences
@@ -161,12 +174,13 @@ public class SettingsFragment extends PreferenceFragment
                     .setOnPreferenceChangeListener(adminModeStateListener);
             findPreference(getString(R.string.pref_key_admin_mode_timer))
                     .setOnPreferenceClickListener(adminModeClickListener);
+
+            mTimerPreference = findPreference(getString(R.string.pref_key_admin_mode_timer));
         }
 
         // Set the entries, values and summary of language chooser
         updateChosenLanguageSummary();
     }
-
 
 
     @Override
@@ -176,17 +190,18 @@ public class SettingsFragment extends PreferenceFragment
                 .registerOnSharedPreferenceChangeListener(this);
 
         if(AdminActivity.isAdmin()) {
-            adminTickerStart(AdminActivity.getRemainingAdminModeTime());
+            adminModeTickerStart();
         }
     }
+
 
     @Override
     public void onPause() {
         super.onPause();
+        adminModeTickerStop();
+
         getPreferenceScreen().getSharedPreferences()
                 .unregisterOnSharedPreferenceChangeListener(this);
-
-        adminTickerStop();
     }
 
     /**
