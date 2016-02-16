@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
+import com.pandora_escape.javier.pandora_escape.admin_mode.AdminActivity;
 import com.pandora_escape.javier.pandora_escape.message_db.Message;
 import com.pandora_escape.javier.pandora_escape.message_db.MessagesContract;
 import com.pandora_escape.javier.pandora_escape.message_db.MessagesDBHelper;

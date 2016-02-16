@@ -5,6 +5,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.pandora_escape.javier.pandora_escape.admin_mode.AdminActivity;
+
 
 public class QR_Display extends AdminActivity {
 

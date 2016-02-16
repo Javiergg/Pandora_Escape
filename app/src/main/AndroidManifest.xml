@@ -65,7 +65,7 @@
         </activity>
 
         <service
-            android:name=".AdminModeService"
+            android:name=".admin_mode.AdminModeService"
             android:enabled="true"
             android:exported="false" >
         </service>
